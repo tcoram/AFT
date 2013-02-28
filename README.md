@@ -3,7 +3,12 @@
 To install this package, you need to have perl version 5 or greater running
 on your system. 
 
-** Unix Install
+If you are on ubuntu, all you need to do is type:
+
+$ sudo apt-get install aft
+
+
+** Unix/Linux Install
 
 To install under unix, type:
 
