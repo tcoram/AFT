@@ -31,5 +31,4 @@ A Tutorial/Reference manual exists in aft-refman.aft.
 
 See aft-html.dat for an example on how to write your own element file.
 
-- todd
-	tcoram@pobox.com
+- todd (http://www.maplefish.com/todd/aft.html)
