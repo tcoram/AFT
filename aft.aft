@@ -1,0 +1,64 @@
+*Title: Almost Free Text
+*Image-center: aft.gif
+
+		~''A documentation preparation system.''~
+		~''by Todd Coram''~
+------
+		_Sep 10, 2010: [Version 5.098 is now available. (Downloads)] ~(Experimental Indexing support.)~_
+		_Sep 05, 2009: [Version 5.097 is now available. (Downloads)] ~(Section levels via indentation.)~_
+
+		~Semi/Psuedo Literate Programming can be accomplished via {-Knit@:knit.html-}~
+		~VimOutliner fans should check out {-this@:otl2aft.html-}~
+-----
+
+* What is AFT?
+
+AFT is a document preparation system. It is mostly ''free form'' meaning that
+there is little intrusive markup. AFT source documents look a lot like plain
+old ASCII text.
+
+AFT has a few rules for structuring your document and these rules have more
+to do with formatting your text rather than embedding commands.
+
+Right now, AFT produces pretty good HTML, LaTeX, {-lout@http://snark.ptc.spbu.ru/~~uwe/lout/lout.html-} and RTF.  It can, in fact,
+be coerced into producing all types of output (e.g. roll-your-own XML).
+All that needs to be done is to edit a rule file. You can even customize your
+own HTML rule files for specialized output.
+
+----
+
+The latest documentation in HTML (for 5.09x) can be found {-here@:aft-refman.html-}.
+The latest documentation in PDF (for 5.09x) can be found in {-here@:aft-refman.pdf-}.
+The documentation, of course, is written using AFT. 
+The source document can be found {-here@:aft-refman.aft-}.
+
+* Downloads
+
+~_AFT needs Perl 5.6 or greater to run._~
+
+	* _LATEST_: Version 5.098 ~(indexing support -- see [Changes])~
+		* {+:aft-5.098.tar.gz+}
+	* _STABLE_: Version 5.097 ~(minor fixes -- see [Changes])~
+		* {+:aft-5.097.tar.gz+}
+		* {+:aft-5.097.zip+}
+
+* Quick Installation
+Untar the distribution and ...
+
+	[Linux/FreeBSD/Cygwin/Unix] Run |./configure| and then |make install|.
+	[Windows 98/ME/2000/XP] (Assuming ActiveState Perl is installed...)
+		Double click on |install.pl| and answer a few questions.
+
+----
+
+* Changes
+
+*File: ChangeLog.aft
+
+----
+
+Let me know what you think!
+
+-- {-todd@mailto:todd /_insert_at_here/ maplefish.com-}
+
+			~Last update Sep 10, 2010~

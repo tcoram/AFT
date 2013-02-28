@@ -1,0 +1,14 @@
+#
+# configure.in for AFT
+# 2002/03/16 alane@geeksrus.net
+#
+AC_INIT(aft.in)
+AM_INIT_AUTOMAKE(aft, 5.098)
+
+dnl Checks for programs.
+AC_PROG_INSTALL
+AC_PATH_PROG(PERL, perl)
+AC_SUBST(PERL)
+
+dnl Write 'em out.
+AC_OUTPUT(Makefile aft aft.cgi)

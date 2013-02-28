@@ -1,0 +1,569 @@
+#---TABSTOP=4
+** Version 5.098 (10sep2010)
+*** AFT.pm
+
+Added experimental support for Index generation. See aft-refman.aft for
+more info.
+
+Also, I've started some much needed code cleanup.
+
+** Version 5.097 (05sep2009)
+*** AFT.pm
+Section levels 5 thru 7 are now supported in HTML and LaTeX.
+
+** Version 5.096 (27sep2005)
+
+*** aft-html.dat and aft-tex.dat
+Removed the ''historical'' hack: using \\ to produce a line break.
+This was never documented, so it shouldn't cause too much pain to have it
+removed. If it does cause pain, let me know. You could always use a pragma
+to (re)implement this feature/hack.
+
+In the meantime... A new rule element: |LineBreak| has been introduced so that
+internal reliance on \\ goes away. |LineBreak| has not been exposed to the end
+user (yet).
+
+*** AFT.pm
+Fixed a small bug concerning line continuations in verbatim mode: Line
+continuations are no longer parsed when in verbatim mode. What you type is
+what you should get.
+
+** Version 5.095 (29jul2004)
+
+*** aft-refman.aft
+Used a double backslash \\ to represent a backslash
+when a single backslash would do. (Double backslash is a very old (archaic?)
+way of forcing line breaks in AFT). A single backslash _not_ followed by a
+new line, |\[,\_, or \~| will be left alone. Does this make sense? 
+This will be re-investigated and a better solution offered. Soon..
+
+*** install.pl
+Now correctly quotes window file paths. This should fix an issue with launch_ie.
+
+*** aft-tex.dat
+Added \usepackage{ae} to utilize outline fonts instead of bitmap fonts.
+(suggestion by Flynn Marguardt).
+
+*** AFT.pm
+Some internal renaming of variables, etc to make the programming style more
+consistent. So far, tests indicate that nothing is broken. Please, please let
+me know if something breaks because of this. Nicer looking code make future
+changes easier :-)
+
+** Version 5.094 (6apr2004)
+
+*** bn-html now default
+Ben Lilburne's HTML (aft-bn-html.dat) is now the default HTML style.
+
+*** Footnotes!
+AFT now has support for footnotes and endnotes. Footnotes (notes in
+page footers) are used where supported (e.g. LaTeX), otherwise notes
+are collected at the end of the document and linked back to the
+referent text in systems withouth page footers (e.g. HTML).
+
+*** New aft-refman.aft
+Added a syntax section, documented line continuations and footnotes.
+
+*** Code cleanup of AFT.pm
+Getting slowly better. Better regexes. Better perl.
+
+** Version 5.0931 (2feb2004)
+*** New .dat file element
+|EXT| has been added to specify the default output file extension. If |EXT|
+isn't present, then |ID| is used.
+
+*** aft-tex.dat
+In the previously release, I accidently distributed this as DOS file (^M terminated lines) which caused much havoc.
+
+** Version 5.093 (30jan2004)
+*** aft-tex.dat
+Guido Gonzato has cleaned up aft-tex.dat to produce even more beautiful LaTeX
+output.
+*** aft-html.dat
+Slightly tweaked to support aft-bn-html.dat (first foray into stylesheets).
+*** aft-bn-html.dat
+Contributed HTML extension to include stylesheets.
+
+** Version 5.092 (19oct2003)
+*** aft-tex.dat
+Better LaTeX support _(including tables!)_.
+Better, but not perfect. It still fails trip.aft, although
+aft-refman.aft looks nice.
+** install.pl
+It was pointed out that if you supply a destination directory that ends with
+''aft'' then the script will incorrectly try and install the |aft| program
+(same exact name as directory fragment) there. This will have unexpected results.
+Since only non-Unix users should be using |install.pl|, the fix was to name
+the resulting program |aft.pl| (to reduce chances of conflicts). This is
+essentially a Windows fix.
+
+*** Table Parser
+A new table parser (controlled by pragma |#---SET-CONTROL tableparser=new|)
+has been included. The new parser requires you terminate a row with a line
+of dashes (|-|). With the new parser you can do multi-line rows like this:
+
+
+^<<
+#---SET-CONTROL tableparser=new
+	! _Very_ Important Dates        !
+	!-------------------------------!
+	! Year ! Month ! Day ! Notes    !
+	!-------------------------------!
+	! 1966 ! Oct   ! 9   !  Hello   !
+	!      !       !     ! Multiline!
+	!      !       !     ! text here!
+	!-------------------------------!
+	! 1999 ! Dec   ! 25  ! xmas is  !
+	!      !       !     ! Christmas!
+	!-------------------------------!
+	! 2000 ! Jan   ! 1   ! New Years!
+	!-------------------------------!
+^>>
+
+produces:
+
+#---SET-CONTROL tableparser=new
+	! _Very_ Important Dates        !
+	!-------------------------------!
+	! Year ! Month ! Day ! Notes    !
+	!-------------------------------!
+	! 1966 ! Oct   ! 9   !  Hello   !
+	!      !       !     ! Multiline!
+	!      !       !     ! text here!
+	!-------------------------------!
+	! 1999 ! Dec  ! 25  ! xmas is  !
+	!      !      !     ! Christmas!
+	!-------------------------------!
+	! 2000 ! Jan   ! 1   ! New Years!
+	!-------------------------------!
+
+
+** Version 5.091 (14aug2003) 
+
+*** compile.pl preFilter/postFilter
+
+Irwin Oppenheim suggested a neat way to extend AFT's capabilities: allow perl
+expressions in preFilter and postFilter regexes. So, now we have |preFilter/e|
+and |postFilter/e| and the capability of specifying 1 line perl "subs" inside
+of the .dat files (see aft-tex.dat).
+
+*** New URL variable symbol 
+A new URL symbol: %_text% has been introduced to help the LaTeX url package
+produce meaningful url links. %_text% is set to %text% if %text% != %target%
+otherwise %_text% is blank. Since TeX displays the actual URL, we won't get
+''double-up'' values when %text% is the same as %target%. Confused?
+
+** Version 5.09 (29jul2003)
+*** aft-html.dat international characters
+This was somehow missing in the last release!
+
+*** New and Improved Lout support
+Courtesy of Abel Morabito!
+
+*** New escape sequences (for literals)
+You can now escape |\_|,|\||, and |\~| with a backslash.... (if you don't want to double them up).
+*** Verbatim Square Brackets
+Don't like the new \[] hyperlink interface? Turn it off with:
+	 #---SET-CONTROL verbatimsquarebrackets=yes
+
+*** File URL syntax
+Fixed the problem where \[text (file://something)] wasn't allowed.
+
+*** Relative URL syntax
+Added support for \[local ref (:aft-refman.html)] ([local ref (:aft-refman.html)]) to support relative URLs.
+
+** Version 5.08 (31may2003)
+*** New ''Clarified'' Artistic License
+A more GNU friendly license has been adopted: A clarified Artistic License.
+
+*** install.pl now more Windoze Friendly
+''Experimental'': You can now install AFT onto windows with .aft filenames
+associated with the AFT executable.
+
+*** SET Pragma
+Before all variables had to be words (\w), now they can be anything not
+containing a space or "=" character. (Be sure to escape special characters...)
+
+*** Target and References
+You can now escape \[not a link] by preceding it with a backslash (|\|) to 
+prevent bracketed text from becoming links. Other target/reference errors
+were fixed too.
+
+*** AFT.pm Refactoring
+Cleaned up the code to make the Perl a bit more consistent. No impact on
+execution.
+
+*** New aft-tex.dat and aft-html.dat
+Guido Gonzato (ggonza -at- tin.it) cleaned up aft-tex.dat to produce more
+readable and modern (and hence more beautiful) LaTeX. He also added some
+internationalization to aft-html.dat.
+
+** Version 5.08b (1apr2003)
+
+*** Targets and References
+The old style:
+	 {+Tac-2002+}
+	 {-click here@some target-}
+	 }+some target+{
+	 }+Tac-2002+{
+has been deprecated (gently!) in favor of:
+	 [Tac-2002]
+	 [click here (some target)]
+	 =[some target]=
+	 =[Tac-2002]=
+
+Deprecated is a _strong_ word. I won't be dropping the old style anytime soon
+(and if you _want_ parens in your target/reference text you will need to use
+the old way), but I encourage general adoption (and feedback!) on the new way.
+
+*** aft-refman.aft
+Updated!
+
+*** aft-tex.dat
+Minor improvements and fixes on target/references.
+
+*** SET bug - expands in verbatim
+Fixed a bug where pragmas are expanded in verbatim mode. Now, if you are
+in verbatim (but not ''filtered verbatim''), the pragmas are not expanded.
+
+** Version 5.0793 (3sep2002)
+
+*** PDFLaTeX vs LaTeX
+I'm using PDFLaTeX (pdflatex) these days. This probably means nothing. However
+I noticed that pdflatex has support for jpeg images (as opposed to eps). So,
+I changed aft-refman.aft to use |aft.jpg| for the AFT image. This will not
+work under the original latex. But, is it worth a special pdflatex mode?
+
+*** Documentation updated 
+Updated aft-refman.aft to document |#---SET| pragma and |#)| enumerated lists.
+
+*** Easier enumerated lists
+You can now use |#)| or |#.| to denote items in an enumerated list, since
+AFT will choose the numbers for you anyway. This means you should never
+expect to start ''quotes'' with |#)| or |#.| -- which would be weird anyway.
+
+*** Section headers
+Section headers are now processed with filters. In a nutshell, you can now
+do emphasis/italic/etc in section headers. Let the havoc begin.
+
+** Version 5.0792 (27mar2002)
+
+*** New build distribution
+AlanE saved me from myself (see previous version). This should be good to go.
+
+** Version 5.0791 (27mar2002)
+
+''Never happened. It was just a dream. Go back to sleep.''
+
+** Version 5.079 (21mar2002)
+
+*** New build distribution
+Converted build to GNU automake/autoconf. - alane at geeksrus.net
+
+*** aft-rtf.dat
+Exec'ing postrtf.pl fails because it isn't in perl's search path, so we
+fake it out for now by prepending the contents of |@INC[0]| to the file
+name. |@INC[0]| should be the aft library directory.
+
+*** Trailing Spaces in section headers
+Trailing spaces in section header text are now trimmed.
+
+*** Verbatim Spaces to Tab
+Fixed bug in  block verbatim mode (|^<<|), where spaces were being turned into 
+tabs.
+
+** Version 5.078 (22feb2002)
+
+*** TOC fixed
+Table of Contents (TOC) was generating references to the numbers in
+autonumbered sections, instead of the actual sections themselves.
+This has been fixed. How long was this broken? I need better regression
+testing!
+
+*** Output filename mangling bug fixed
+Output filenames created from input filenames with more than one |.| in it
+caused problems. I wasn't handling filename suffix replacement correctly.
+This has been fixed (e.g. processing |aft --type=html foo.bar.aft| will
+now correctly produce an output file named |foo.bar.html|.
+
+Thanks to willg at bluesock dot org for pointing that out.
+
+*** PASS-xxx Broken
+Yikes! Somewhere between releases the PASS pragma broke (it was being
+ignored). It has since been repaired.
+
+*** Block/Filtered Verbatim bug fixed
+A subtle processing ordering problem. If you were in Block Verbatim mode
+and the beginning of your line looked like an AFT command, that command
+was interpreted! We need to check for Block Verbatim mode before we
+check for other commands. This is fixed.
+
+Thanks to Greg Hurell at mac dot com for noticing this problem.
+
+** Version 5.078b (12jan2002)
+*** SET pragma
+You can now set symbolic substitutions in *.dat files _and_ AFT documents. You
+get two flavors:
+	[#---SET symbol=some text until newline] -
+		Sets up a substitution to happen before preFiltering.
+	[#---SET-{ID} symbol=some text until newline] -
+		Sets up ID specific substitution to happen after filtering.
+
+The first flavor is useful for doing simple substitution of arbitrary text:
+(e.g. 
+	 #--SET NAME=_Bob Baskin_
+	 Hello, %NAME%. You may have just won...
+)
+
+The second can be used to do more complex ''output type'' dependent 
+substitutions: (e.g.
+	 #--SET-HTML NAME=<img src="signature.gif">
+	Sincerely yours, %NAME%.
+)
+
+You can also use "SET" (without the preceding #--) in *.dat files to provide
+default values.
+
+*** aft-html.dat/AFT.pm
+Anchor (target) name for sections was the section number. This isn't intuitive 
+(at least not for me), so it has been changed back to the section text. This way, references to sections are once again just the section name (sans number).
+
+** Version 5.077 (29dec2001)
+*** RTF
+Eva Maria Krause (Eva.Maria.Krause at muenster.de) added RTF support.
+I modified aft to allow it to invoke post processing scripts to make Eva's 
+changes easier to use...
+There are still some rough areas, but it is a good start!
+
+*** Installer Improvements
+A little easier... no?
+
+*** Minor bug?
+I am not sure if this got released, but the "interpolate" keyword in *.dat
+files was being misinterpreted. It works now :-)
+
+*** Tables under Windoze
+A end-of-line pattern match '$' fails under cygwin/perl5.6/win2k. This is
+troublesome for the superfluous !---------! seperator. We now match on
+'$' or '\r'...
+
+*** aft-html.dat change
+Dummy links were provided for sections. This got annoying (at least for me),
+so the sections are back to the way they were.
+
+** Version 5.076a (21jun2001)
+
+*** Compile.pl prefilters
+preFilter can now be used to ''remove'' patterns as well as replace them.
+For example:
+	preFilter XXXXX
+will remove every occurrence of |XXXXX|.
+
+*** Improved URL handling
+Once again, Chris Bidmead caught a little niggling bug. The URL parser didn't
+handle dashes ('-') in hostnames. This has been fixed.
+
+*** --autonumber
+Richard Tietjen (rdtiejen at pobox.com) contributed the new --autonumber
+feature. With this switch AFT will automatically provide numbering for
+sections. This is mostly for HTML output.
+
+*** Fixed doublequote handling in aft-tex.dat.
+
+** Version 5.072b (23apr2001)
+*** Lout Support
+Added support for the typesetting language ''lout''. Thanks Abel!
+
+*** Improved Regular Expressions
+Slight improvements to make some expressions less greedy. Improvements by Abel Morabito.
+
+** Version 5.072a (14mar2001)
+Added more explicit support for ''sectioning''. This gives much finer control
+over how sections entry/exit are noted. See aft-lout.dat for examples.
+
+*** Compile.pl
+	* Allow passing comments inside of preamble and postamble. 
+	  Since the preamble and postamble is copied *verbatim*, 
+	  inner comments shouldn't be stripped.
+	* Use qq' ' for quoting commands. This lets the crafter of the 
+          aft-*.dat do things like add |\n| and other control sequences
+	  to their output. i.e.
+		* StartParagraph   \n<p>\n
+
+** Version 5.07a (17feb2001)
+
+*** Cleanup
+Continued refactoring and clean up of code. One day, I will be pretty!
+
+*** CGI
+Preliminary support for doing AFT through the web.
+
+*** Sections
+Fixed the nesting/un-nesting of sections. This was done so I could begin to
+add support for lout. Lout expects subsections to be sandwiched between
+'BeginSubSection' and 'EndSubSection'. Also added new keywords of the same
+name.
+
+** Version 5.06 (19dec2000)
+*** General Note
+I need to make comprehensive test suite... Hopefully, soon. For the time being,
+aft-refman.aft and trip.aft will do.
+
+*** XHTML
+Added a new XHTML element file (aft-xhtml.dat). It should produce well formed
+XHTML. Consider it beta for now (I need to get a validating parser installed).
+
+*** AFT.pm
+**** A Very Bad List Bug!
+If you do ''very'' nested and convoluted things with lists, it will not
+work properly. Here is a failure case:
+	* Bullet
+		1. Number 1
+		2. Number 2
+This will produce two numbered lists... don't ask why... the problem
+turned out to be rather stupid on my part. I forgot that |push| adds
+values to the ''end'' of an array. I looked at |listStack[0]| as the
+top of the array (stack), but I really wanted |$listStack[$#listStack]|.
+
+This bug has been around for quite some time now. But, it only rears it's
+ugly head when you nest lists of differing types.
+
+**** Comment Bug 
+     |<!-- --- xxxx -->| isn't valid XHTML? I started with:
+|<!----- xxxx -->| and aft kind of munged it. Anyway, it has now been
+fixed to produce: |<!-- xxxx -->|.
+
+**** Subtle end list element bug
+If a list is the very last thing in your document, the last list element
+isn't terminated properly (the nesting unrolls without terminating the
+list). Adding a &endListElement() just before unrolling fixes the problem.
+
+*** Element File Compiler
+**** Reuse
+In Version 5.05b changelog, did I say ''inherit''? I meant ''use''...
+
+    # A new keyword has been introduced: ''use''. This allows a sort of
+      compile time inheritance. If you want to utilize some of the features
+      from an element file, just 'use' it (''use aft-xzy.dat''). This
+      way you don't have to copy end edit to introduce your own modifications.
+Also, it was broken... Rather than override preambles and postambles, 
+compile.pl appended to them :( Now, it's okay :)
+
+** Version 5.05b (21jul2000)
+
+*** New Installation Stuff
+Rewrote installer. Everything now expects to install under a single 'aft'
+directory rather than all over the place.
+
+*** AFT.pm
+AFT turned into a Module.... the first step to CPAN? It's cleaner too
+(better modularity and finer grain control).
+With this change, aft.pl now justs invokes the module.
+
+*** Element File Overhaul
+
+**** Spaces Allowed!
+You don't have to litter the file with tabs, fields can now be delimited by
+spaces... will this hold up?
+
+**** Reuse
+A new keyword has been introduced: ''inherit''. This allows a sort of
+compile time inheritance. If you want to utilize some of the features
+from an element file, just 'inherit' it (''inherit aft-xzy.dat''). This
+way you don't have to copy end edit to introduce your own modifications.
+
+**** Name Change
+aft-xyz.dat turns into aft-xyz.pm (dropping the 'dac' extension). They are proper
+modules, so why not recognize that?
+
+**** New compile.pl
+Rewrote it. Much cleaner now. Oooh.
+
+** Version 5.05a (3apr2000)
+
+*** Plain Old URL Targets
+... just got plainer. A simpler regex is now being used. If you need to get
+real funky with your URLs, don't use this feature! I simplified the regex. The
+older (fuller) one was full of bugs.
+
+*** Ftp is now supported in Plain Old URL Targets
+Very simple change. Why didn't I do it before?
+
+** Version 5.04 (9mar2000)
+*** Installation bug corrected
+Fixed a bug in compile.pl that causes filenames like /tmp/bin/../lib/foo.dat
+to be parsed incorrectly (resulting in a bad output file name).
+
+*** Added LaTeX output support
+Very, very preliminary and incomplete. Just for experimenting (right now).
+
+
+** Version 5.03 (5jan2000)
+
+*** Improved (hopefully?) the installer
+
+The prompts pick better default directory paths... but will this work under
+Windows?
+
+*** Minor aft-html.dat improvement
+
+Centered lines are delimited by <br>. This causes double spacing between
+centered lines. This can be annoyong, so the <br> has been removed.
+
+**  Version 5.02b (8oct99) 
+
+*** Multiline face changes
+
+Chris Bidmead (bidmead at cbidmead.demon.co.uk)  identified a bug with 
+multi-line face changes (bold, italics, etc)
+where you can't do single line face changes. This has been fixed. 
+You should be able to do stuff like:
+
+    ''This is an
+      italic paragraph with _bold_ face changes.''
+
+''This is an
+italic paragraph with _bold_ face changes.''
+
+*** Plain Old Hyperlinks
+
+Chris Bidmead (bidmead at cbidmead.demon.co.uk)  identified a bug with Plain Old
+Hyperlinks: They don't work
+if they occur at the beginning of the line. Here is the offending code:
+
+    $line =~ s/([\s\(])((http|https|file|ftp|mailto)\:[^\s\)]+)/
+
+I have intended to rewrite the http[s]|file parsing to be more rigorous, so
+this prompted me to do so. Now all Plain Old Hyperlinks must be delimited
+by spaces. See the code for the changes.
+
+** 5.01b 3aug99
+
+Plain Old Hyperlinks were broken and have now been fixed?
+
+** 5.0b 2aug99
+
+The beta release has a couple of fixes:
+
+	* aft-html.dat : Table is no longer centered by default.
+	* install.pl : Fixed the Window install.
+
+And a new feature:
+
+	* $HOME is searched first for the rule file; then the installation
+	  directory.
+
+** 5.0a 22jun99
+
+This is the alpha release of the ''next generation AFT''.  A lot has happened
+since 4.6. The world has changed.  Here is what has happened:
+
+	* This implementation is ''not'' written in Aftweb. It is a cleaned
+	  up version of the same Perl 5 sources that made 4.6.
+	* LaTeX support has been dropped. XML and HTML4 support has become
+	  the main focus (you can generate LaTeX from XML/HTML anyway).
+	* Reliance on C++ has been dropped. aft-toc has been rewritten
+	  in perl and folded into aft.pl.
+	* Some rarely used commands have been improved (changed) to make 
+	  them more usable. Details will follow.
+

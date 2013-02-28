@@ -1,0 +1,29 @@
+#!@PERL@
+use strict;
+use CGI;
+use CGI::Carp qw(fatalsToBrowser);
+use lib @prefix@/share/@PACKAGE@;
+use AFT;
+
+my $cgi = new CGI;
+
+
+my $file = $cgi->param('file');
+
+if (!defined($file)) {
+  print $cgi->header();
+  print <<"END_OF_FORM"
+    <FORM ENCTYPE="multipart/form-data" ACTION="/cgi-bin/aft.cgi" METHOD="POST">
+      <p>Please select an AFT file to upload: <br /> 
+         <INPUT TYPE="FILE" NAME="file">
+      </p>
+      <p><INPUT TYPE="submit"></p>
+    </FORM>
+		  
+END_OF_FORM
+
+} else {
+  print $cgi->header();
+  &AFT::doFH_File($file, $file);
+}
+

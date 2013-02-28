@@ -1,0 +1,119 @@
+# NOT DONE YET!!!  DocBook 3.1  (Article) AFT 5.0 rules
+# All fields must be seperated by tabs!!
+#
+# This file will be documented one day...
+#
+
+# Identification of rule file
+ID  DocBookArticle	
+
+# Everything between Preamble{ and }Preamble is printed before any other
+# element markup. 
+#
+Preamble{
+<!doctype article PUBLIC "-//OASIS//DTD DocBook V3.1//EN">
+<article>
+<artheader>
+	<author>%author%</author>
+</artheader>
+}Preamble
+
+
+# Everything between Postamble{ and }Postamble is printed last after all other
+# element markup. This string can take one argument: the AFT version string.
+#
+Postamble{
+</article>
+}Postamble
+
+preFilter	\014	 
+preFilter	\&	\&amp;
+preFilter	\"	\&quot;
+preFilter	\>	\&gt;
+preFilter	\<	\&lt;
+preFilter	\\\\	<br>
+
+
+# Handle hyperlinks...
+#
+URL	<ulink url="%target%">%text%</ulink>
+InternalReference	<link linkend="%target%">%text%</link>
+Target	<anchor id="%target%">%text%
+
+Title	<title id="AFT-top">%title%</title>
+Author	<author>%author%</author>
+TOC	
+
+Image-left	<inlinegraphic fileref="%image%" format="gif" align=left></inlinegraphic>
+Image-right	<inlinegraphic fileref="%image%" format="gif" align=right></inlinegraphic>
+Image-center	<inlinegraphic fileref="%image%" format="gif" align=center></inlinegraphic>
+Image	<inlinegraphic fileref="%image%" format="gif"></inlinegraphic>
+
+*	<sec1 id="%section%"><title>%section%</title>
+*	<sec2 id="%section%"><title>%section%</title>
+*	<sec3 id="%section%"><title>%section%</title>
+*	<sec4 id="%section%"><title>%section%</title>
+EndSect1	</sec1>
+EndSect2	</sec2>
+EndSect3	</sec3>
+EndSect4	</sec4>
+
+NoteRef			<superscript>%ref%</superscript>
+Superscript		<superscript>%stuff%</supscript>
+Subscript		<subscript>%stuff%</subscript>
+Center			%center%
+StartParagraph		<para>
+EndParagraph		</para>
+HorizontalLine		
+
+StartTable		<table><tgroup cols="%columns%">
+TableCaption	<title>%caption%</title>
+TableHeader		<entry>%stuff%</entry>
+TableElement		<entry>%stuff%</entry>
+TableRowStart		<row>
+TableRowEnd		</row>
+EndTable		</table>
+
+StartBulletList		<itemizedlist mark=opencircle>
+BulletListElement	<listitem>
+EndBulletListElement	</listitem>
+EndBulletList		</itemizedlist>
+
+StartNamedList		<variablelist>
+NamedListElement	<varlistentry><term>%name%</term><listitem>
+EndNamedListElement	</listitem></varlistentry>
+EndNamedList		</variablelist>
+
+StartNumberedList	<orderedlist>
+NumberedListElement	<listitem>
+EndNumberedListElement	</listitem>
+EndNumberedList		</orderedlist>
+
+StartQuote	<blockquote>
+EndQuote	</blockquote>
+
+PreFilterVerbatim?		Yes
+FullFilterFilteredVerbatim?		Yes
+StartBlockedVerbatim	<programlisting><![CDATA[
+EndBlockedVerbatim	]]></programlisting>	
+StartFilteredVerbatim	<programlisting>
+EndFilteredVerbatim	</programlisting>
+StartVerbatim	<literallayout>
+EndVerbatim	</literallayout>
+
+StartTeletype		<computeroutput>
+EndTeletype		</computeroutput>
+
+StartSmall		<small>
+EndSmall		</small>
+
+StartEmphasis	<emphasis>
+EndEmphasis	</emphasis>
+
+StartStrong	<emphasis role=bold>
+EndStrong	</emphasis>
+
+CommentLine	<comment> %line% </comment>
+StrikeLine	<comment> Striken: %line% </comment>
+
+NBSPACE		&nbsp

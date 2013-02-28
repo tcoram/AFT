@@ -1,0 +1,285 @@
+#---SET \[={brace}
+#---SET \]={end}
+#---SET trip=_TRIP_
+#---SET-HTML test=<i>test</i>
+#---SET-LaTeX test=\emph{test}
+*Title: %trip% %test%
+*Author: Todd Coram
+''hello''
+_there_ ''_ok_''
+		~''Trying to %trip% up AFT the best we can :)''~
+----
+		_''A %[%Table%]% of %trip% %test% Contents''_
+*TOC
+
+--------
+
+* Testing SECTION
+
+_A bolded paragraph by any other name is still an 
+emphasis._
+Except when...
+''There are italics to be dealt with!''
+~Or small text,
+as in this case.~
+
+Here at level }-Level 1-{1. 
+He said underscored \_ by me \_. And this |\|| (pipe) too. 
+A backslash: \ and
+a _continued \
+line_.
+
+As well as \~this\~. ~But not that~
+
+#---SET-LaTeX tilde=~
+#---SET-HTML tilde=~
+
+So this is a test?
+
+{+http://www.foo_bar_x.com+}
+http://www.foobarx.com/%tilde%todd
+Tilde is %tilde%.
+
+
+=[(A target)]=
+"What do you expect?", he said. "I dunno. Something better.", she replied.
+TeX is =[^cool]=. TeX is cool. Yes, "TeX" is cool. But LaTeX is easier.
+
+|What is this? A Bar || not a marker.|
+
+	|What is this? A Bar || not a marker.|
+
+** ''Section'' Level 2
+ ** Not a Section
+*** Section Level 3 again (its a %trip%)
+
+** Section Level 2 again (its an HTML %test%)
+
+**** Section Level 4 with a trailing space 
+**** Another Section Level 4
+** Section Level 2 with several trailing spaces   
+
+Very =[^cool]=.
+
+* Testing PASS
+
+#---PASS-TROFF // Troff silliness not supported yet!
+
+#---PASS-HTML <font color=red size=+1>
+This should be red. (#---PASS test)
+#---PASS-HTML </font>
+
+
+* Testing TABSTOP
+
+#---TABSTOP=8
+=[^TABSTOP]= is 8
+        * A bullet (preceded by 8 spaces)
+	* Another bullet at same level (preceded by hard tab)
+		* A sub-bullet (2 hard tabs)
+                * Another sub-bullet (16 spaces)
+
+TABSTOP is 4
+#---TABSTOP=4
+    * A bullet preceded by 4 spaces (Level 1)
+        * A bullet preceded by 8 spaces (Level 2)
+
+* Testing LINKS
+
+}-Link Tests-{}-Another Target-{
+** Test Plain Old Links
+
+A mere footnote in this convoluted file [Note: Yes, convoluted it is.\
+But pretty damn proud.]
+
+[Testing Links] [Test Plain Old Links] [Another (Testing Links)] [And another (Test Plain Old Links)]
+
+Double bracket test: [[Testing Links]] Did it work?
+
+How about Double bracket test with escape: \[[Testing Links]] [Test Plain Old Links] Did it work? [Note: Better damn work!]
+
+This is my homepage http://www.pobox.com/~tcoram . 
+Try this at home:
+http://www.foo.bar.fubar.what.is.going.on.com
+
+But here is the URL as a local link (brackets!):
+[http://www.foo.bar.fubar.what.is.going.on.com]
+
+[Now external (http://www.foo.bar.fubar.what.is.going.on.com)]
+
+ftp://www.foo.bar.fubar.what-is-going-on.com/file.dat is long.
+
+(http://www.foo.bar.fubar.what.is.going.on.com/topdir/lowdir#subpage) okay?
+
+This is my alternate homepage: (http://patriot.net/~maroc).
+
+A period on the end: http://www.google.com. should work
+But, what is =[^TABSTOP]= set to?
+http://slashdot.org should work.
+
+Alternate URL forms:
+	* Home {+http://www.pobox.com/~tcoram+} Sweet Home.
+	* Send me mail at {+mailto:tcoram@pobox.com+}.
+	* Send me mail [here (mailto:tcoram@pobox.com)].
+	* Download relative [file (:aft.tar.gz)].
+	* Or, just click {-here@mailto:tcoram@pobox.com-}.
+	* Go to [Level One (Level 1)].
+	* Again! Go to [Level One(Level 1)].
+	* Go to [Level 1]. Or click on [this to go to Level 1(Level 1)].
+	* These are regular brackets \[not a link]!
+	* These are regular brackets \[not a link(Level 1)]!
+	* Again, these are regular brackets [not a link
+	  ]!
+	* Local file reference: {-Reference Manual@:aft-refman.html-}
+	[ [Level 1] Named List] a Named list element.
+	* Another Local file reference: {-Target stuff@:aft-refman.html#HTML Targets-}
+	* Yet Another Local file reference: [Target stuff (:aft-refman.html#HTML Targets)]
+
+{+Link Tests+}=[Another Target]=
+
+------
+#---SET aftimage=aft.gif
+#---SET-HTML aftimage=aft.gif
+#---SET-LaTeX aftimage=aft.jpg
+
+* Testing IMAGE
+Plain image command right after text-->
+*Image: %aftimage%
+
+Plain Image command (*Image) three times.
+
+*Image: %aftimage%
+*Image: %aftimage%
+*Image: %aftimage%
+
+Okay, now a left image
+*Image-left: %aftimage%
+
+Now a right flushed image
+*Image-right: %aftimage%
+
+Now a centered image
+*Image-center: %aftimage%
+
+* Testing INCLUDES
+
+Again, but, what is =[^TABSTOP]= set to?
+
+	 *Include: trip-1
+*Include: trip-1
+
+	 *Insert: trip-1.aft
+*Insert: trip-1.aft
+
+* Testing LISTS
+	1 This is not a list, but should be _verbatim_!
+
+	[Something] Named List item.
+	[Else] Another named list item.
+		[Nest] Can these nest?
+	1. Level 1 numbered (Item 1).
+	#) Level 1 with continuation (# numbered)
+	   onto next line (Item 2)
+		1. Level 2 numbered.
+		* Level 2 bulleted.
+			#. Level 3 numbered...
+			   and with a continuation.
+	3. Back to Level 1 numbered (Item 3).
+		* Switching to bullets (Level 2).
+	#) Back to Level 1 numbered (Item 1). (# numbered)
+
+
+* Testing Centered
+
+		This is centered.
+This is not.
+
+* Testing Quoted
+
+An eloquent reflection:
+
+	# You're damned if you do,
+	  You're damned if you don't - Bart Simpson
+
+Or, so they say...
+#---SET ex=!
+#---SET-CONTROL tableparser=new
+
+* Testing Table
+#---SET ex=!
+#---SET bday=It's my birthday. This cell will wrap but must be typed on one line.
+
+	! _Very_ Important Dates%ex%    !
+	!-------------------------------!
+	! Year ! Month ! Day ! Notes    !
+	!-------------------------------!
+	! 1966 ! Oct   ! 9   ! %bday%   !
+	!-------------------------------!
+	! 1999 ! Dec   ! 25  ! xmas     !
+	!-------------------------------!
+	! 2000 ! Jan   ! 1   ! New Years!
+	!-------------------------------!
+
+test again.
+
+
+	! _Very_ Important Dates\!      !
+	!-------------------------------!
+	! Year ! Month ! Day ! Notes    !
+	!-------------------------------!
+	! 1966 ! Oct   ! 9   !  Hello\! !
+	!      !       !     ! Multiline!
+	!      !       !     ! text here!
+	!-------------------------------!
+	! 1999 ! Dec-  ! 25  ! xmas is  !
+	!      !ember  !     ! Christmas!
+	!-------------------------------!
+	! 2000 ! Jan   ! 1   ! Hi\! New Years!
+	!-------------------------------!
+
+* Test Verbatim
+
+** Straight Verbatim
+
+	 This is just some random tuff:
+	 <>&^%$##@#*$sjdfhkjfs*(_+_))**(^&^%^%%^$#
+	 * This isn't a bullet.
+	 1. This isn't a list.
+
+** Blocked Verbatim
+
+^<<
+This is just some random tuff:
+ test|<>&^%$##@#*$sjdfhkjfs*(_+_))**(^&^%^%%^$#
+  !"#$%&'()*+,-./0123456789:;<=>?@
+ ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`
+ abcdefghijklmnopqrstuvwxyz{|}~
+|What is this? A Bar || not a marker.|
+
+* This isn't a section.
+	* This isn't a bullet.
+	1. This isn't a list.
+^>>
+
+** Filtered Verbatim
+
+^<<Filter
+	_Some bold_ moves.
+	This is just some random tuff:
+	 <>&^%$##@#*$sjdfhkjfs*(+))**(^&^%^%%^$#
+	 * This isn't a bullet.
+	 1. This isn't a list.
+^>>
+
+** Verbatim and Line Continuations
+
+
+^<<
+ This
+     list of words \
+           is very long \
+                   and should not \
+			get wrapped as a \
+				single line.
+^>>
+

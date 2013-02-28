@@ -1,0 +1,27 @@
+# -*-makefile-*-
+# Makefile.cvs
+# 2002/02/10 alane@geeksrus.net
+#
+
+AUTOHEADER=	autoheader${ACSUFFIX}
+AUTOCONF=	autoconf${ACSUFFIX}
+AUTOCONF_ARGS=	
+
+ACLOCAL=	aclocal${AMSUFFIX}
+AUTOMAKE=	automake${AMSUFFIX}
+AUTOMAKE_ARGS=	-a --foreign
+
+UNCLEAN=	aclocal.m4\
+		configure\
+		install-sh\
+		missing\
+		mkinstalldirs\
+		Makefile.in
+prep:
+	-rm -f ${UNCLEAN}
+	${ACLOCAL}
+	-test -n "${WITH_AUTOHEADER}" && ${AUTOHEADER}
+	${AUTOMAKE} ${AUTOMAKE_ARGS}
+	${AUTOCONF}
+
+#EOF

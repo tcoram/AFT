@@ -1,0 +1,76 @@
+*Title: Converting aft-files to rtf-files
+*Author: Eva Maria Krause
+
+                        Version 1.0
+                        ~revised 12/10/2001~
+
+*TOC
+
+*Preliminaries
+It would be very nice to have a dat-file for direct RTF-output from
+aft-files.
+In fact, there are convertors from HTML to RTF or from LaTeX to RTF,
+but a direct way seems to be much more natural.
+When trying to write such a file there arise a lot of problems.
+The solutions proposed here are realized by some post-processing of the
+generated rtf-file, which is done by a little perl-script named "postrtf.pl".
+For this purpose the dat-file contains some commands,
+which can't be directly interpreted by an rtf-reader.
+They only serve as markup-commands needed in the perl-script afterwards.
+
+*Problems and their solution
+
+**Missing spaces
+First of all, lines in rtf-files are concatenated without intermediate spaces.
+Therefore the generated output must be modified by concatenating lines with
+additional spaces.
+
+**Numbering of ordered lists
+The second problem concerns ordered lists:
+RTF isn't a markup-language at all.
+Therefore no logical structure of documents exists.
+It must be substituted by paragraphs, indention and so on.
+Unlike HTML, Tex and Lout numbering of items isn't done automatically.
+It must be done by hand.
+
+**Indention of nested lists
+When nesting lists the indention of each item depends on the current indention
+level.
+Ordered and unordered lists can be mixed up arbitrarily.
+That's the reason, that unordered lists must also be handled by the
+postprocessing process.
+
+**Verbatim paragraphs
+Verbatim paragraphs should be displayed in the same manner as typed in.
+Especially line breaks should be kept.
+In RTF this means, that each line must be preceeded by something like
+|\par| or
+|\line\li...|
+But in AFT-Dat-files there is no way of specifying some output code
+preceeding each line of a verbatim-block.
+
+**Tables
+In the definition of tables the width of each column has to be specified.
+But the number of columns varies from case to case,
+so one has to insert a different number of commands like |\cellx...|.
+This can only be done in the postprocessing process by evaluating the
+number of columns.
+
+*Remarks
+
+**Images
+Images won't be translated due to their very complicated presentation in RTF.
+
+**Nesting of named lists
+Nesting of named lists is not implemented yet.
+
+**Tables
+The presentation of tables only works, if the calculated number of
+columns by aft is correct. If the number of columns in a table varies
+from row to row aft calculates the number of columns only considering
+the first row. The generated table in rtf will then have not enough
+columns.
+
+*Warning
+Due to the described problem of missing spaces postprocessing is necessary
+in every case.

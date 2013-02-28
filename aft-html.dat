@@ -1,0 +1,436 @@
+# HTML AFT 5.0 Elements
+#
+
+# An element file can use definitions from another element file. It is best
+# to load those elements first, so you will have a chance to override their
+# definitions.
+
+# use somebasefile.dat
+
+# Should perl interpolate the text in this file? The default is "yes". This
+# means that backslashes and other substitutions are performed. This may not
+# be the behavior you want if you want to write out backslashes and other
+# sepecial characters (for example: aft-tex.dat does not interpolate...TeX
+# needs to see backslashes!).
+#
+interpolate	yes
+
+
+# Identification of element file. This is used to keep track of what produced
+# the output.
+#
+ID	HTML
+
+# Set variables (symbols ala %name%) that will be substituted after 
+# postFiltering. These may be overridden in the documents.
+#
+SET stylesheet=none
+
+# Everything between Preamble{ and }Preamble is printed before any other
+# element markup. You have, at your disposal, a few 'symbols' 
+# (pseudo-variables) that are substituted during AFT processing.
+# These symbols are:
+#  %title% - The *Title of the document (if any).
+#  %author% - The *Author of the document (if any).
+#  %version% - The current version (and copyright info) of AFT.
+#
+Preamble{
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>%title%</title>
+	<meta name="author" content="%author%">
+	<meta name="GENERATOR" content = "%version%">
+<style type="text/css">
+  <!--
+	.Default {background-color: rgb(255,255,255); color: rgb(0,0,0); font-family: 'Tahoma'; font-size: 12pt}
+	.Text-Background {background-color: rgb(255,255,255)}
+	.section5 { padding-left: 50pt; }
+	.section6 { padding-left: 75pt; }
+	.section7 { padding-left: 100pt; }
+  -->
+</style>
+</head>
+<body>
+}Preamble
+
+
+# Everything between Postamble{ and }Postamble is printed last after all other
+# element markup. If present, the following symbol is expanded:
+#  %aft% - An 'advertisement' banner for AFT (This document was generated...).
+#   This will include a reference to the AFT home page.
+#
+
+Postamble{
+<br>
+<p align="right"> <small>%aft%</small> </p>
+</body>
+</html>
+}Postamble
+
+# preFilters are regular expression pairs (pattern replacement) for raw
+# substitutions. They are processed (in order of appearance) before any
+# formal AFT element processing. You can use preFilters to escape characters
+# you want AFT to ignore. If a preFilter has no replacement text, the pattern
+# is deleted from the document.
+#
+
+# Escape characters that HTML doesn't like to see.
+#
+preFilter	\&	\&amp;
+preFilter	\"	\&quot;
+preFilter	\>	\&gt;
+preFilter	\<	\&lt;
+# the most common European accented characters
+preFilter	\Ð	\&ETH;
+preFilter	\ð	\&eth;
+preFilter	\Ä	\&Auml;
+preFilter	\Ë	\&Euml;
+preFilter	\Ï	\&Iuml;
+preFilter	\Ö	\&Ouml;
+preFilter	\Ü	\&Uuml;
+preFilter	\ä	\&auml;
+preFilter	\ë	\&euml;
+preFilter	\ï	\&iuml;
+preFilter	\ö	\&ouml;
+preFilter	\ü	\&uuml;
+preFilter	\ÿ	\&yuml;
+preFilter	\Æ	\&AElig;
+preFilter	\Â	\&Acirc;
+preFilter	\Å	\&Aring;
+preFilter	\Ê	\&Ecirc;
+preFilter	\Î	\&Icirc;
+preFilter	\Ô	\&Ocirc;
+preFilter	\Þ	\&THORN;
+preFilter	\â	\&acirc;
+preFilter	\Â	\&Acirc;
+preFilter	\æ	\&aelig;
+preFilter	\å	\&aring;
+preFilter	\ê	\&ecirc;
+preFilter	\î	\&icirc;
+preFilter	\ô	\&ocirc;
+preFilter	\ß	\&szlig;
+preFilter	\þ	\&thorn;
+preFilter	\û	\&ucirc;
+preFilter	\Á	\&Aacute;
+preFilter	\À	\&Agrave;
+preFilter	\Ã	\&Atilde;
+preFilter	\Ç	\&Ccedil;
+preFilter	\É	\&Eacute;
+preFilter	\È	\&Egrave;
+preFilter	\Í	\&Iacute;
+preFilter	\Ì	\&Igrave;
+preFilter	\Ñ	\&Ntilde;
+preFilter	\Ó	\&Oacute;
+preFilter	\Ò	\&Ograve;
+preFilter	\Ø	\&Oslash;
+preFilter	\Õ	\&Otilde;
+preFilter	\Ú	\&Uacute;
+preFilter	\Ù	\&Ugrave;
+preFilter	\Ý	\&Yacute;
+preFilter	\á	\&aacute;
+preFilter	\à	\&agrave;
+preFilter	\ã	\&atilde;
+preFilter	\ç	\&ccedil;
+# preFilter	\$	\&dollar;
+preFilter	\é	\&eacute;
+preFilter	\è	\&egrave;
+preFilter	\í	\&iacute;
+preFilter	\ì	\&igrave;
+preFilter	\ñ	\&ntilde;
+preFilter	\ó	\&oacute;
+preFilter	\ò	\&ograve;
+preFilter	\ø	\&oslash;
+preFilter	\õ	\&otilde;
+preFilter	\ú	\&uacute;
+preFilter	\ù	\&ugrave;
+preFilter	\ý	\&yacute;
+
+# A hack to force a line break (\\). This should probably be put in the core
+# code or just removed.
+#
+#preFilter	\\\\	<br>
+
+
+# Just like preFilters, we have postFilters too. PostFilters are often used
+# to undo temporary substitutions performed by preFilters (a trick used to
+# protect characters you want to hide from AFT).
+#
+#postFilter pattern subtext
+
+# Filtered Verbatim mode kicks out 8 consecutive spaces. 
+# Block Verbatim retains tabs.
+# We want to truncate them down to two non breaking spaces..
+#
+postFilter	\s{8}	\&nbsp;\&nbsp;
+postFilter	\t	\&nbsp;\&nbsp;
+
+# A PostProcessor is a line of perl code that is run on the file produced by
+# AFT. The name of that output file is stored in $outputfile. Most likely,
+# you will call another script on the output file. For example:
+#
+#PostProcessor	exec "$^X postprocess.pl $outputfile"
+
+
+# AFT has its own notion about what constitutes mark up for intra-document
+# references and URLs. Here we just need to provide some mechanism for
+# rendering that notion.
+#
+# To help you out, you are given two symbols:
+#  %target% - The name of the reference (destination).
+#  %text% - Text representing the 'source' of the link.
+#
+
+
+# Standard Web URLs:
+#
+URL	<a class="link" href="%target%">%text%</a>
+
+# Indexing support
+#
+Index	<a name="%target%"></a>
+# SmartIndexing	no
+
+# Custom command to generate index... nope, not under HTML.
+# PrintIndex	?
+
+
+# Intra-document references.
+#
+Target	<a name="%target%">%text%</a>
+InternalReference	<a class="link" href="#%target%">%text%</a>
+
+# The Title element: You are supplied with one symbol for substitution: 
+#  %title%  - The parsed title of the document.
+#
+Title	<br><center><h1><a name="AFT-top">%title%</a></h1></center>
+
+# The Author element: You are supplied with one symbol for substitution: 
+#  %author%  - The parsed author of the document.
+#
+Author	<br><center><h2>%author%</h2></center>
+
+# If you have the capability for automatically generating a table of contents,
+# then supply the markup command here. Otherwise, leave it blank and AFT will
+# generate a table of contents for you.
+TOC	
+
+# Sections are supplied two symbols:
+#  %number% - The level numbering of the section.
+#  %section% - The section name (sans number) of the section.
+#  %text% - The text title of the section (number + section)
+#
+*	<h2><a name="%section%">%text%</a></h2>
+**	<h3><a name="%section%">%text%</a></h3>
+***	<h4><a name="%section%">%text%</a></h4>
+****	<h5><a name="%section%">%text%</a></h5>
+*****	<div class="section5"><h6><a name="%section%">%text%</a></h6>
+******	<div class="section6"><h6><a name="%section%">%text%</a></h6>
+*******	<div class="section7"><h6><a name="%section%">%text%</a></h6>
+
+EndSect1	<!--End Section 1-->
+EndSect2	<!--End Section 2-->
+EndSect3	<!--End Section 3-->
+EndSect4	<!--End Section 4-->
+EndSect5	</div> <!--End Section 5-->
+EndSect6	</div> <!--End Section 6-->
+EndSect7	</div> <!--End Section 7-->
+
+# Some markup engines can't just be presented with arbitrary sections. If
+# you need to indicate when a section 'level' is being entered and left,
+# do so here.
+#
+BeginSectLevel1		<!-- Start SectLevel1 -->
+EndSectLevel1		<!-- End SectLevel1 -->
+BeginSectLevel2		<!-- Start SectLevel2 -->
+EndSectLevel2		<!-- End SectLevel2 -->
+BeginSectLevel3		<!-- Start SectLevel3 -->
+EndSectLevel3		<!-- End SectLevel3 -->
+BeginSectLevel4		<!-- Start SectLevel4 -->
+EndSectLevel4		<!-- End SectLevel4 -->
+
+# This is a historical hack. But, is it still useful?
+# If you want to create sections that automatically link to the top of the
+# document, define them here.
+#
+^*	<br><a href="#AFT-top">[Top]</a><h2><a name="%section%">%text%</a></h2>
+^**	<br><a href="#AFT-top">[Top]</a><h3><a name="%section%">%text%</a></h3>
+^***	<br><a href="#AFT-top">[Top]</a><h4><a name="%section%">%text%</a></h4>
+^****	<br><a href="#AFT-top">[Top]</a><h5><a name="%section%">%text%</a></h5>
+
+# AFT has very simple image markup capabilities. You are given just one
+# symbol:
+#  %image% - the full pathname to an image file (with extension provided).
+#
+
+# Place an image within the text flow.
+#
+Image		<img src="%image%" alt="" align=bottom>
+
+# Center an image.
+#
+Image-center	<center><img src="%image%" alt="" align=bottom></center><br clear=all>
+
+# Place an image justified left.
+#
+Image-left	<img src="%image%" alt="" align=left><br clear=all>
+
+# Place an image justified right.
+#
+Image-right	<img src="%image%" alt="" align=right><br clear=all>
+
+# Center takes one symbol:
+#  %center% - text to be centered.
+#
+Center			<center>%center%</center>
+
+# Footnotes/Endnotes takes:
+#	%note% - text of the note
+#	%notereftxt% - reference text for endnote
+#	%notetarget% - endnote target
+Note	<sup>[%notereftxt%(%notetarget%)]</sup>
+NotesAtEnd?	yes
+
+# Line Break
+#
+LineBreak		<br>
+
+# Start a paragraph.
+#
+StartParagraph		<p class="Body">
+
+# End a paragraph.
+#
+EndParagraph		</p>
+
+# Draw a simple separator line.
+#
+HorizontalLine		<hr>
+
+# Bullet lists and items.
+#
+StartBulletList		<ul>
+BulletListElement	<li>
+EndBulletListElement	</li>
+EndBulletList		</ul>
+
+# Named lists and items. A Named list is preceded by a %name% instead of a
+# bullet..
+#
+StartNamedList		<dl>
+# The NamedListElement uses the %name% symbol.
+#
+NamedListElement	<dt><strong>%name%</strong></dt><dd>
+EndNamedListElement	</dd>
+EndNamedList		</dl>
+
+# Numbered lists. The markup engine is expected to automatically increment
+# the numbers (not AFT).
+#
+StartNumberedList	<ol>
+NumberedListElement	<li>
+EndNumberedListElement	</li>
+EndNumberedList		</ol>
+
+# Quotes.
+#
+StartQuote	<blockquote>
+EndQuote	</blockquote>
+
+# Plain Verbatim. This is the 'line by line' verbatim mode that is preceded
+# by tabs/spaces.
+#
+StartVerbatim	<div class="block"><pre>
+EndVerbatim	</pre></div>
+
+# Block Verbatim. This is the verbatim "mode" that is usually multi-lined.
+# Most likely this is the same as plain verbatim.
+#
+StartBlockedVerbatim	<div class="block"><pre>
+EndBlockedVerbatim	</pre></div>
+
+
+# Do we run the preFilter patterns on verbatim (Verbatim and FilteredVerbatim) 
+# text?
+#
+PreFilterVerbatim?		Yes
+
+# Filtered Verbatim. Allows font/link-reference tricks.
+#
+StartFilteredVerbatim	<pre>
+EndFilteredVerbatim	</pre>
+
+# Do we do font style (Strong, Small, Teletype, Emphasis) and link references
+# on FilteredVerbatim text?
+#
+FullFilterFilteredVerbatim?		Yes
+
+
+# Font style tricks.
+#
+StartTeletype		<tt>
+EndTeletype		</tt>
+
+StartSmall		<small>
+EndSmall		</small>
+
+StartEmphasis	<em>
+EndEmphasis	</em>
+
+StartStrong	<strong>
+EndStrong	</strong>
+
+# Comments and strikes can be kept in the output (if you wish).
+# They are available through the %line% symbol.
+#
+CommentLine	<!-- %line% -->
+StrikeLine	<!-- Striken: %line% -->
+
+# A non breakable space. 
+#
+NBSPACE		&nbsp
+
+# Tables support is not very pretty, nor sophisticated....
+#
+
+# Here is your chance to tell your markup engine that we are starting a table.
+# You get one symbol:
+#  %columns% - The number of columns in the table.
+#
+StartTable		<!-- %columns% columns --><table border>
+
+# Table captions are rendered here. You get one symbol:
+#  %caption% - The caption text.
+#
+TableCaption		<caption>%caption%</caption>
+
+# The header text for the table is supplied in the symbol %stuff%.
+#
+TableHeader		<th>%stuff%</th>
+
+# Each table element is supplied in the symbol %stuff%.
+#
+TableElement		<td>%stuff%</td>
+
+# If any special separators are needed...
+#
+TableElementSep
+
+# Start a table row.
+#
+TableRowStart		<tr>
+
+# End a table row.
+#
+TableRowEnd		</tr>
+
+# End the table.
+#
+EndTable		</table>
+
+# The following markup are not implemented yet:
+#
+NoteRef			<sup>%ref%</sup>
+Superscript		<sup>%stuff%</sup>
+Subscript		<sub>%stuff%</sub>
+

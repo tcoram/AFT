@@ -1,0 +1,64 @@
+# HTML AFT 5.0 elements
+#
+use aft-html.dat
+
+# Identification of rule file
+ID	XHTML
+
+# Everything between Preamble{ and }Preamble is printed before any other
+# element markup. 
+#
+Preamble{
+<?xml version=\'1.0\' encoding=\'iso-8859-1\'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<title>%title%</title>
+  <meta name="author" content="%author%" />
+  <meta name="GENERATOR" content = "%version%" />
+  <meta content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>
+}Preamble
+
+Postamble{
+<br />
+<hr />
+<center><small><em>
+%aft%
+</em></small></center>
+</body>
+</html>
+}Postamble
+
+# preFilter	\\\\	<br />
+
+
+Title	<h1><a name="AFT-top"><center>%title%</center></a></h1>
+Author	<br /><center><h2>%author%</h2></center>
+
+Image-left	<img src="%image%" alt="" align="left" /><br clear="all" />
+Image-right	<img src="%image%" alt="" align="right" /><br clear="all" />
+Image		<img src="%image%" alt="" align="bottom" />
+Image-center	<center><img src="%image%" alt="" align="bottom" /></center><br clear="all" />
+
+*	<div id="%section%"><h2><a name="%section%">%section%</a></h2>
+**	<div id="%section%"><h3><a name="%section%">%section%</a></h3>
+***	<div id="%section%"><h4><a name="%section%">%section%</a></h4>
+****	<div id="%section%"><h5><a name="%section%">%section%</a></h5>
+EndSect1	</div><!--End Section h2-->
+EndSect2	</div><!--End Section h3-->
+EndSect3	</div><!--End Section h4-->
+EndSect4	</div><!--End Section h5-->
+
+^*	<br /><div id="%section%"><a href="#AFT-top">[Top]</a><h2><a name="%section%">%section%</a></h2>
+^**	<br /><div id="%section%"><a href="#AFT-top">[Top]</a><h3><a name="%section%">%section%</a></h3>
+^***	<br /><div id="%section%"><a href="#AFT-top">[Top]</a><h4><a name="%section%">%section%</a></h4>
+^****	<br /><div id="%section%"><a href="#AFT-top">[Top]</a><h5>%section%</h5>
+
+StartTable		<!-- %columns% columns --><table>
+ParagraphBreak		<br />
+HorizontalLine		<hr />
+NBSPACE		&nbsp;

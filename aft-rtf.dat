@@ -1,0 +1,151 @@
+# RTF AFT 5.0 rules
+#
+ID	  RTF
+
+######################################################################
+# COPYRIGHT	
+#
+# Almost Free Text (AFT) 
+# Todd A. Coram (todd@digicool.com)
+# http://www.maplefish.com/todd/
+#
+# DISCLAIMER 
+#
+# This file is in a very alpha-status. Nevertheless it should work fairly good.
+# Use it at your own risk and let me know bugs or ideas of improvement.
+#
+# ATTENTION
+# In addition of aft-ing your source-file you have to execute the perl-script
+# "postrtf.pl" afterwards included in this package (see documentation).
+#
+# Eva Maria Krause (Eva.Maria.Krause@muenster.de)
+#
+# December, 2001
+#
+######################################################################
+
+interpolate	no
+
+PostProcessor	exec "$^X @INC[0]/postrtf.pl $outputfile"
+
+# Preamble and postamble
+
+Preamble{
+{\rtf1\ansi\ansicpg1252\deff0\deftab720
+{\fonttbl{\f0\froman Times New Roman;}{\f1\fmodern Courier;}{\f2\fswiss Arial;}}
+{\info{\title %title%}{\author %author%}}
+{\colortbl ;\red0\green0\blue255;}
+
+\deflang1031
+
+}Preamble
+
+Postamble{
+}
+}Postamble
+
+# no hyperlinks
+#
+URL			{\cf1\ul %text%\cf0}
+InternalReference	{\cf1\ul %text%\cf0}
+Target		{\cf1\ul %text%\cf0}
+
+# protect the AFT hypertext braces
+#
+preFilter	\{\+(.*?)\+\}	%LeFtB%PlUs$1%PlUs%RiGhTB
+preFilter	\}\+(.*?)\+\{	%RiGhTB%PlUs$1%PlUs%LeFtB
+preFilter	\{\-(.*?)\-\}	%LeFtB%NeG$1%NeG%RiGhTB
+preFilter	\}\-(.*?)\-\{	%RiGhTB%NeG$1%NeG%LeFtB
+
+# backslash
+preFilter	\\	\\\\
+
+# curly braces
+preFilter	\{	\\\{
+preFilter	\}	\\\}
+
+preFilter	%LeFtB	{
+preFilter	%RiGhTB 	}
+preFilter	%PlUs		+
+preFilter	%NeG		-
+
+Title		\par\pard \qc {\fs48\b %title%} \par\pard
+Author	\par\pard \qc {\fs36\b %author%} \par\pard \par\pard
+TOC
+
+Image		
+Image-center
+Image-left	
+Image-right	
+
+*		{\f0\fs36 {\par\pard\b %section%\par}}
+**		{\f0\fs28 {\par\pard\b %section%\par}}
+***		{\f0\fs24 {\par\pard\b %section%\par}}
+****		{\f0\fs20 {\par\pard\b %section%\par}}
+
+^*
+^**
+^***
+^****
+
+EndSect1	
+EndSect2	
+EndSect3	
+EndSect4	
+
+StartParagraph	\par\pard 
+EndParagraph	\par 
+Center		\pard\qc {%center%} \par\pard 
+HorizontalLine	{\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash}
+
+StartTable		\tabcols%columns%\endtabcols
+TableCaption	\par\pard%caption%\par\par\pard\trowd\cellxx
+TableHeader		{\b %stuff%}\cell
+TableElement	%stuff%\cell
+TableRowStart	\intbl
+TableRowEnd		\row
+EndTable		\pard\par
+
+StartBulletList 		\bullist
+BulletListElement		\bulitem
+EndBulletListElement	
+EndBulletList		\endbullist
+
+StartNamedList		{
+NamedListElement	      \par\pard{\b %name%} \par\tx500\li500\fi-500 \tab
+EndNamedListElement	
+EndNamedList		\par}
+
+StartNumberedList		\numlist
+NumberedListElement	\numitem
+EndNumberedListElement	
+EndNumberedList 		\endnumlist
+
+StartQuote	\par\pard\li500\ri500 { 
+EndQuote	} \par\pard
+
+PreFilterVerbatim?		Yes
+FullFilterFilteredVerbatim?	Yes
+StartVerbatim			{\f1\fs20\verbatim
+EndVerbatim				\endverbatim}
+StartBlockedVerbatim		{\f1\fs20\verbatim
+EndBlockedVerbatim		\endverbatim}
+StartFilteredVerbatim	 	{\f1\fs20\verbatim
+EndFilteredVerbatim		\endverbatim}
+
+StartTeletype	{\f1\fs20 
+EndTeletype		}
+
+StartSmall		{\fs16 
+EndSmall		}
+
+StartEmphasis	{\i 
+EndEmphasis		}
+
+StartStrong		{\b 
+EndStrong		}
+
+CommentLine
+StrikeLine		%%--- %line%
+
+NBSPACE 		\~

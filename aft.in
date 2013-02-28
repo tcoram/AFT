@@ -1,0 +1,9 @@
+: # use perl                                  -*- mode: Perl; -*-
+	eval 'exec perl -S $0 "$@"'
+		if $running_under_some_shell;
+
+use strict;
+use lib "@prefix@/share/@PACKAGE@";
+use AFT;
+
+&AFT::main();
